@@ -9,4 +9,4 @@ class MockWitClient(object):
 
 
 def send_message_to_client(client, message):
-    return client.message(message)
+    return client.run_actions("foo", message)

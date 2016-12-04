@@ -5,16 +5,45 @@
     <title>Flask-SSE Quickstart</title>
 </head>
 <body>
-<h1>Flask-SSE Quickstart</h1>
+<h1>My first bot</h1>
+<textarea id="chat" cols="80" rows="20"></textarea><br><br>
+<input id="text" size="80" placeholder="Enter your message here"><br><br>
+
+<script type="text/javascript"
+        src="//code.jquery.com/jquery-1.4.2.min.js"></script>
 <script>
     var source = new EventSource("{{ url_for('sse.stream') }}");
-    source.addEventListener('greeting', function (event) {
+
+    source.addEventListener('user', function (event) {
         var data = JSON.parse(event.data);
-        alert("The server says " + data.message);
+        $('#chat').val($('#chat').val() + "User says: " + data.message + '\n');
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);
     }, false);
+
+    source.addEventListener('bot', function (event) {
+        var data = JSON.parse(event.data);
+        $('#chat').val($('#chat').val() + "Bot says: " + data.message + '\n');
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+    }, false);
+
     source.addEventListener('error', function (event) {
-        alert("Failed to connect to event stream. Is Redis running?");
+        console.log("Failed to connect to event stream. Is Redis running?");
     }, false);
+
+    $('#text').keypress(function (e) {
+        var code = e.keyCode || e.which;
+        if (code == 13) {
+            text = $('#text').val();
+            $('#text').val('');
+            $.ajax({
+                type: "POST",
+                url: 'http://' + document.domain + ':' + location.port + '/message',
+                data: JSON.stringify({"message": text}, null, '\t'),
+                contentType: 'application/json;charset=UTF-8'
+            });
+        }
+    });
+
 </script>
 </body>
 </html>

@@ -35,6 +35,10 @@ def publish_hello():
 @app.route('/message', methods=['POST'])
 def send_message():
     message = request.get_json().get("message", "")
+    sse.publish({"message": message}, type='user')
+
+    response = send_message_to_client(client, message)
+    sse.publish({"message": response['_text']}, type='bot')
     return json.dumps(send_message_to_client(client, message))
 
 if __name__ == '__main__':

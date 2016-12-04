@@ -1,2 +1,5 @@
 flask
 wit
+flask-sse
+gunicorn
+gevent

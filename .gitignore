@@ -133,3 +133,5 @@ ENV/
 # Rope project settings
 .ropeproject
 
+# wit.ai access token
+access_token

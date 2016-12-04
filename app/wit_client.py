@@ -30,8 +30,13 @@ def search(request):
     entities = request['entities']
     print(entities)
     query = best_entity_value(entities.get('search_query', []))
-    context['link'] = "cool_stuff_about_{}.io".format(query)
+    context['link'] = build_link_from_query(query)
     return context
+
+
+def build_link_from_query(query):
+    one_word_query = "_".join(query.split(' '))
+    return "cool_stuff_about_{}.io".format(one_word_query)
 
 
 actions = {

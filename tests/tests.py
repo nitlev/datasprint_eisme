@@ -1,4 +1,4 @@
-from app.wit_client import best_entity_value, search
+from app.wit_client import best_entity_value, search, build_link_from_query
 
 
 class MockWitClient(object):
@@ -45,3 +45,23 @@ class TestClass:
 
         # Assert
         assert 'link' in new_context.keys()
+
+    def test_build_link_from_query_with_one_word(self):
+        # Given
+        query = "foo"
+
+        # When
+        link = build_link_from_query(query)
+
+        # Assert
+        assert link == "cool_stuff_about_foo.io"
+
+    def test_build_link_from_query_with_two_word(self):
+        # Given
+        query = "foo bar"
+
+        # When
+        link = build_link_from_query(query)
+
+        # Assert
+        assert link == "cool_stuff_about_foo_bar.io"

@@ -3,12 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Flask-SSE Quickstart</title>
-</head>
+    <link rel=stylesheet type=text/css
+          href="{{ url_for('static', filename='style.css') }}">
 <body>
-<h1>My first bot</h1>
-<textarea id="chat" cols="80" rows="20"></textarea><br><br>
-<input id="text" size="80" placeholder="Enter your message here"><br><br>
-
+<div class="container">
+    <div class="top">
+        <span>To:
+            <span class="name">EISME Bot</span>
+        </span>
+    </div>
+    <div id="chat">
+        <div class="conversation-start">
+            <span>Votre conversation commence ici</span>
+        </div>
+    </div>
+    <br><br>
+    <div class="write">
+        <input id="text" placeholder="Enter your message here"><br><br>
+    </div>
+</div>
 <script type="text/javascript"
         src="//code.jquery.com/jquery-1.4.2.min.js"></script>
 <script>
@@ -16,14 +29,14 @@
 
     source.addEventListener('user', function (event) {
         var data = JSON.parse(event.data);
-        $('#chat').val($('#chat').val() + "User says: " + data.message + '\n');
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+        var text = data.message + "\n";
+        $('#chat').append('<div class="bubble user">' + text + '</div>');
     }, false);
 
     source.addEventListener('bot', function (event) {
         var data = JSON.parse(event.data);
-        $('#chat').val($('#chat').val() + "Bot says: " + data.message + '\n');
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+        var text = data.message + "\n";
+        $('#chat').append('<div class="bubble bot">' + text + '</div>');
     }, false);
 
     source.addEventListener('error', function (event) {

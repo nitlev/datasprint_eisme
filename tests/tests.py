@@ -1,4 +1,4 @@
-from app.wit_client import best_entity_value, search, build_link_from_query
+from app.wit_client import best_entity_value, search, build_url_from_query
 
 
 class MockWitClient(object):
@@ -51,7 +51,7 @@ class TestClass:
         query = "foo"
 
         # When
-        link = build_link_from_query(query)
+        link = build_url_from_query(query)
 
         # Assert
         assert link == "cool_stuff_about_foo.io"
@@ -61,7 +61,7 @@ class TestClass:
         query = "foo bar"
 
         # When
-        link = build_link_from_query(query)
+        link = build_url_from_query(query)
 
         # Assert
         assert link == "cool_stuff_about_foo_bar.io"

@@ -34,13 +34,17 @@ def search(request):
     return context
 
 
-def build_link_from_query(query):
+def build_url_from_query(query):
     one_word_query = "_".join(query.split(' '))
     return "cool_stuff_about_{}.io".format(one_word_query)
+
+
+def build_link_from_query(query):
+    url = build_url_from_query(query)
+    return "<a href='" + url + "'>" + url + "</a>"
 
 
 actions = {
     'send': send,
     'search': search
 }
-

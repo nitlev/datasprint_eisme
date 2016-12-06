@@ -135,3 +135,6 @@ ENV/
 
 # wit.ai access token
 access_token
+
+# slide search instance url
+awsinstance

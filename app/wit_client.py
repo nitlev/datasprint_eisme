@@ -15,6 +15,7 @@ def send(request, response):
 def search_with_client(client):
     def search(request):
         context, entities = extract_context_and_entities(request)
+        print(entities)
         query = best_entity_value(entities.get('search_query', []))
         context['link'] = build_link_from_query(client, query)
         return context

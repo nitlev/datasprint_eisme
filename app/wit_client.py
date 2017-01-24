@@ -2,8 +2,6 @@ from operator import itemgetter
 
 from flask_sse import sse
 
-from app.slidesearch_client import SlideSearchClient
-
 
 def send(request, response):
     """
@@ -23,6 +21,12 @@ def search_with_client(client):
     return search
 
 
+def extract_context_and_entities(request):
+    context = request['context']
+    entities = request['entities']
+    return context, entities
+
+
 def best_entity_value(entities):
     """
     Returns highest ranked entity value
@@ -37,15 +41,10 @@ def best_entity_value(entities):
         return val
 
 
-def extract_context_and_entities(request):
-    context = request['context']
-    entities = request['entities']
-    return context, entities
-
-
 def build_link_from_query(client, query):
     documents = documents_from_query(client, query)
-    urls = [build_url_from_document(client, document) for document in documents]
+    urls = [build_url_from_document(client, document) for document in
+            documents]
     links = html_links(documents, urls)
     return "<br>".join(links)
 
@@ -63,11 +62,3 @@ def documents_from_query(client, query):
 def build_url_from_document(client, document):
     url = client.preview_url(document)
     return url
-
-
-slidesearchclient = SlideSearchClient()
-
-actions = {
-    'send': send,
-    'search': search_with_client(slidesearchclient)
-}

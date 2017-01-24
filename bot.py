@@ -2,7 +2,8 @@ from flask import Flask, render_template, request
 from flask_sse import sse
 from wit import Wit
 
-from app.wit_client import actions
+from app.slidesearch_client import SlideSearchClient
+from app.wit_client import send, search_with_client
 
 
 def read_token():
@@ -10,6 +11,13 @@ def read_token():
         token = token_file.read()
         return token
 
+
+slidesearchclient = SlideSearchClient()
+
+actions = {
+    'send': send,
+    'search': search_with_client(slidesearchclient)
+}
 
 client = Wit(read_token(), actions=actions)
 
@@ -26,9 +34,10 @@ def index():
 @app.route('/message', methods=['POST'])
 def send_message():
     message = request.get_json().get("message", "")
+    print("got message : {}".format(message))
     sse.publish({"message": message}, type='user')
 
-    client.run_actions("foo", message)
+    client.run_actions("foo", message, verbose=10)
     return "OK"
 
 

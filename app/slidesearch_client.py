@@ -1,4 +1,5 @@
 from urllib.parse import urlencode
+import logging
 
 import requests
 
@@ -15,14 +16,16 @@ class SlideSearchClient(object):
         try:
             self.session.get(self.base_url)
         except requests.exceptions.ConnectionError:
-            print("Couldn't connect :/ Are you sure the domain is correct ?")
+            logging.error("Couldn't connect :/ "
+                          "Are you sure the domain is correct ?")
             raise
 
     def search(self, query):
         url = self.search_url(query)
-        return Documents(
-            self.session.get(url).json().get("result", {}).get("results", [])
-        )
+        logging.info("GET " + url)
+        results = self.session.get(url).json()\
+            .get("result", {}).get("results", [])
+        return Documents(results)
 
     def search_url(self, query):
         url = self.base_url
@@ -32,6 +35,7 @@ class SlideSearchClient(object):
 
     def preview(self, document):
         url = self.preview_url(document)
+        logging.info("GET " + url)
         return self.session.get(url)
 
     def preview_url(self, document):

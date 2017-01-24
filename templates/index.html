@@ -45,9 +45,11 @@
 
     $('#text').keypress(function (e) {
         var code = e.keyCode || e.which;
+        var textBox = $('#text');
         if (code == 13) {
-            text = $('#text').val();
-            $('#text').val('');
+            var text = textBox.val();
+            console.log(text);
+            textBox.val('');
             $.ajax({
                 type: "POST",
                 url: 'http://' + document.domain + ':' + location.port + '/message',

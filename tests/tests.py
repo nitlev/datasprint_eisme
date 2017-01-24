@@ -75,7 +75,7 @@ class TestClass:
         link = build_url_from_document(mock_slide_search_client, doc)
 
         # Assert
-        assert link == "cool_stuff_about_foo.io"
+        assert link == "preview_mock"
 
     def test_build_link_from_query_with_two_word(self):
         # Given
@@ -87,4 +87,4 @@ class TestClass:
         link = build_url_from_document(mock_slide_search_client, doc)
 
         # Assert
-        assert link == "cool_stuff_about_foo_bar.io"
+        assert link == "preview_mock"
